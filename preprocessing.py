@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 # --------------------------------
 # STEP 1: Dataset Split Function
 # --------------------------------
-def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\DatasetOG", output_dir="dataset"):
+def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\Dataset136", output_dir="dataset"):
     print("Current working directory:", os.getcwd())
 
     if os.path.exists(os.path.join(output_dir, "train")):
@@ -52,7 +52,7 @@ def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-
 
     # Train + Temp split
     X_train, X_temp, y_train, y_temp = train_test_split(
-        all_paths, all_labels, test_size=0.3, random_state=42, stratify=all_labels
+        all_paths, all_labels, test_size=0.2, random_state=42, stratify=all_labels
     )
 
     # Val + Test split
@@ -112,7 +112,7 @@ val_transforms = transforms.Compose([
 # --------------------------------
 # STEP 3: Load Dataset
 # --------------------------------
-def load_datasets(batch_size=32):
+def load_datasets(batch_size=16):
 
     # prepare_dataset()  ##COMMENTED OUT CAUSE I DONT WANT TO RISK MAKING DUPLICATE DATASETS BY MISTAKE
 
@@ -135,7 +135,7 @@ def load_datasets(batch_size=32):
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=0,
+        num_workers=2,
         pin_memory=True
     )
 
@@ -143,7 +143,7 @@ def load_datasets(batch_size=32):
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=0,
+        num_workers=2,
         pin_memory=True
     )
 
@@ -151,8 +151,12 @@ def load_datasets(batch_size=32):
         test_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=0,
+        num_workers=2,
         pin_memory=True
     )
 
     return train_loader, val_loader, test_loader
+
+
+# if __name__=="__main__":
+#     prepare_dataset()
