@@ -2,7 +2,6 @@
 
 import os
 import shutil
-import random
 from sklearn.model_selection import train_test_split
 
 import torch
@@ -13,7 +12,7 @@ from torch.utils.data import DataLoader
 # --------------------------------
 # STEP 1: Dataset Split Function
 # --------------------------------
-def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\Dataset", output_dir="dataset"):
+def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\DatasetOG", output_dir="dataset"):
     print("Current working directory:", os.getcwd())
 
     if os.path.exists(os.path.join(output_dir, "train")):
@@ -115,7 +114,7 @@ val_transforms = transforms.Compose([
 # --------------------------------
 def load_datasets(batch_size=32):
 
-    # prepare_dataset()  # ← automatically prepares dataset #COMMENTED OUT CAUSE I DONT WANT TO RISK MAKING DUPLICATE DATASETS BY MISTAKE
+    # prepare_dataset()  ##COMMENTED OUT CAUSE I DONT WANT TO RISK MAKING DUPLICATE DATASETS BY MISTAKE
 
     train_dataset = datasets.ImageFolder(
         root="dataset/train",
@@ -136,7 +135,7 @@ def load_datasets(batch_size=32):
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=4,
+        num_workers=0,
         pin_memory=True
     )
 
@@ -144,7 +143,7 @@ def load_datasets(batch_size=32):
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=4,
+        num_workers=0,
         pin_memory=True
     )
 
@@ -152,7 +151,7 @@ def load_datasets(batch_size=32):
         test_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=4,
+        num_workers=0,
         pin_memory=True
     )
 
