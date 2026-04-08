@@ -62,7 +62,7 @@ dataset = SimCLRDataset(
 
 train_loader = DataLoader(
     dataset,
-    batch_size=32,
+    batch_size=16,
     shuffle=True,
     num_workers=0,  # keep 0 for Windows stability
     pin_memory=True
@@ -110,10 +110,12 @@ class SimCLR(nn.Module):
 # ------------------------------------
 def contrastive_loss(z1, z2, temperature=0.5):
 
+    z1 = F.normalize(z1, dim=1)
+    z2 = F.normalize(z2, dim=1)
+    
     batch_size = z1.size(0)
 
     z = torch.cat([z1, z2], dim=0)
-    z = F.normalize(z, dim=1)
 
     sim_matrix = torch.matmul(z, z.T)
 
@@ -142,11 +144,11 @@ def main():
     print("Starting training...")
 
     model = SimCLR().to(device)
-    print("Model loaded")
+    print("SimCLR Model loaded")
 
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
-    epochs = 10
+    epochs = 5
 
     for epoch in range(epochs):
 
@@ -171,6 +173,11 @@ def main():
             total_loss += loss.item()
 
         print(f"Epoch {epoch+1} Loss: {total_loss/len(train_loader):.4f}")
+
+    # Save the model weights
+    save_path = "simclr_model.pth"
+    torch.save(model.state_dict(), save_path)
+    print(f"Training complete. Model weights saved to {save_path}")
 
 
 #_-__-_-____---_-___--_--_-----_---_____------
