@@ -148,7 +148,7 @@ def main():
 
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
-    epochs = 5
+    epochs = 50 #Lets keep this as 50 for now. Will experiment more later
 
     for epoch in range(epochs):
 
