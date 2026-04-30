@@ -14,18 +14,14 @@ class MobileNetV2_Model(nn.Module):
         super(MobileNetV2_Model, self).__init__()
 
         mobilenet = models.mobilenet_v2(
-            weights=models.MobileNet_V2_Weights.DEFAULT
+            weights=None
         )
 
         # Feature extractor
         self.features = mobilenet.features
 
-        # Freeze early layers
-        for param in self.features[:10].parameters():
-            param.requires_grad = False
-
-        # Train deeper layers
-        for param in self.features[10:].parameters():
+        # Train all layers (since we are starting from scratch)
+        for param in self.features.parameters():
             param.requires_grad = True
 
         # Pooling layer
