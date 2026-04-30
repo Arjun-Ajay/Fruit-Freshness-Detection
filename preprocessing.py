@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 # --------------------------------
 # STEP 1: Dataset Split Function
 # --------------------------------
-def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\Dataset136", output_dir="dataset"):
+def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-Detection\Dataset71_subset", output_dir="dataset"):
     print("Current working directory:", os.getcwd())
 
     if os.path.exists(os.path.join(output_dir, "train")):
@@ -76,7 +76,14 @@ def prepare_dataset(base_dir= r"C:\Users\hp\Desktop\GithubStuff\Fruit-Freshness-
 
             dst = os.path.join(output_dir, split, cls, filename)
 
-            shutil.copy(path, dst)
+            # Fix for Windows MAX_PATH limit (260 characters)
+            src_path = os.path.abspath(path)
+            dst_path = os.path.abspath(dst)
+            if os.name == 'nt' and not src_path.startswith('\\\\?\\'):
+                src_path = '\\\\?\\' + src_path
+                dst_path = '\\\\?\\' + dst_path
+
+            shutil.copy(src_path, dst_path)
 
     copy_files(X_train, y_train, "train")
     copy_files(X_val, y_val, "val")
@@ -158,5 +165,5 @@ def load_datasets(batch_size=16):
     return train_loader, val_loader, test_loader
 
 
-# if __name__=="__main__":
-#     prepare_dataset()
+if __name__=="__main__":
+    prepare_dataset()
