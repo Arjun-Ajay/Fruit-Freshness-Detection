@@ -14,7 +14,7 @@ class ConvNeXt_Tiny_Model(nn.Module):
         super(ConvNeXt_Tiny_Model, self).__init__()
 
         convnext = models.convnext_tiny(
-            weights=models.ConvNeXt_Tiny_Weights.DEFAULT
+            weights=None
         )
 
         # Feature extractor
