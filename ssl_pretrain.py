@@ -64,7 +64,7 @@ train_loader = DataLoader(
     dataset,
     batch_size=16,
     shuffle=True,
-    num_workers=0,  # keep 0 for Windows stability
+    num_workers=2,
     pin_memory=True
 )
 
@@ -148,7 +148,7 @@ def main():
 
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
 
-    epochs = 50 #Lets keep this as 50 for now. Will experiment more later
+    epochs = 50 #Will experiment more later
 
     for epoch in range(epochs):
 
